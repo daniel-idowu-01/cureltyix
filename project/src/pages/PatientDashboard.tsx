@@ -70,7 +70,7 @@ export function PatientDashboard() {
 
   const analyzeWithAI = async () => {
     if (selectedSymptoms.length === 0 || !description.trim()) {
-      alert('Please select symptoms and provide a description');
+      toast.error('Please select symptoms and provide a description');
       return;
     }
 
@@ -81,7 +81,7 @@ export function PatientDashboard() {
       setAiAnalysis(analysis);
     } catch (error) {
       console.error('AI analysis failed:', error);
-      alert('AI analysis failed. Please try again.');
+      toast.error('AI analysis failed. Please try again.');
     } finally {
       setAnalyzing(false);
     }
@@ -89,7 +89,7 @@ export function PatientDashboard() {
 
   const handleSubmit = async () => {
     if (!aiAnalysis) {
-      alert('Please analyze symptoms with AI first');
+      toast.error('Please analyze symptoms with AI first');
       return;
     }
 
@@ -97,7 +97,7 @@ export function PatientDashboard() {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
-        alert('Please login first');
+        toast.error('Please login first');
         return;
       }
 
@@ -108,7 +108,7 @@ export function PatientDashboard() {
         .single();
 
       if (!patientData) {
-        alert('Patient profile not found');
+        toast.error('Patient profile not found');
         return;
       }
 
