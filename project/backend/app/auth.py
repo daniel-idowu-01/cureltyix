@@ -24,7 +24,7 @@ if not SECRET_KEY:
 ALGORITHM = os.getenv("ALGORITHM", "HS256")
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 60))
 
-# ❌ REMOVED prefix="/auth" HERE (VERY IMPORTANT)
+#  REMOVED prefix="/auth" HERE (VERY IMPORTANT)
 router = APIRouter(tags=["Auth"])
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
