@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from './contexts/AuthContext';
+import { RoleProvider, useRole } from './contexts/RoleContext';
 import { Login } from './pages/Login';
 import { Signup } from './pages/Signup';
 import { PatientDashboard } from './pages/PatientDashboard';
@@ -9,8 +10,9 @@ import { Toaster } from 'react-hot-toast';
 
 type AuthView = 'login' | 'signup';
 
-function App() {
+function AppContent() {
   const { user, loading } = useAuth();
+  const { currentRole } = useRole();
   const [authView, setAuthView] = useState<AuthView>('login');
 
   return (
@@ -39,11 +41,11 @@ function App() {
         ) : (
           <Login onNavigateToSignup={() => setAuthView('signup')} />
         )
-      ) : user.role === 'patient' ? (
+      ) : currentRole === 'patient' ? (
         <PatientDashboard />
-      ) : user.role === 'doctor' ? (
+      ) : currentRole === 'doctor' ? (
         <DoctorDashboard />
-      ) : user.role === 'admin' ? (
+      ) : currentRole === 'admin' ? (
         <AdminDashboard />
       ) : (
         <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
@@ -54,5 +56,12 @@ function App() {
   );
 }
 
+function App() {
+  return (
+    <RoleProvider>
+      <AppContent />
+    </RoleProvider>
+  );
+}
 
 export default App;
